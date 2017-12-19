@@ -16,14 +16,15 @@ This is a package made for Python, to interact with the Pushthis RESTful API Net
 ```python
 key = 'key'
 secret = 'secret'
-accessPoint = ''
+accessPointAPI = 'api access point'
+accessPointAuth = 'auth access point'
 ```
 
 > Single Payload Requests
 ```python
 import Pushthis
 
-pushthis = Pushthis(key, secret, accessPoint)
+pushthis = Pushthis(key, secret, accessPointAPI)
 pushthis.setChannel('pushthisNetwork')
 pushthis.setEvent('demo')
 
@@ -40,11 +41,11 @@ pushthis.send()
 ```python
 import Pushthis
 
-pushthis = Pushthis(key, secret, accessPoint)
+pushthis = Pushthis(key, secret, accessPointAPI)
 
 sendToModerator = {
-    'channel' : 'pushthisNetwork',
-    'event' : 'demo',
+    'channel' : 'pythonChat',
+    'event' : 'incomingReports',
     'data' : {
         'username' : 'bob dole',
         'message'  : 'he trolled me.'
@@ -52,8 +53,8 @@ sendToModerator = {
 }
 
 sendToChatRooms = {
-    'channel': 'pushthisNetwork',
-    'event': 'demo',
+    'channel': 'pythonChat',
+    'event': 'callbackReport',
     'data': {
         'username': 'bob dole',
         'message': 'thanks for your report.'
@@ -68,7 +69,7 @@ pushthis.send()
 ```python
 import Pushthis
 
-pushthis = Pushthis(key, secret, accessPoint)
+pushthis = Pushthis(key, secret, accessPointAuth)
 pushthis.authorize(boolean, channel, socket_id)
 ```
 
