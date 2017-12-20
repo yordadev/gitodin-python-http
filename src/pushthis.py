@@ -4,80 +4,126 @@
 ##   / ____/ / /_/ /  (__  )  / / / // /_   / / / / / /   (__  )  _  / /  / /_/ /
 ##  /_/      \__,_/  /____/  /_/ /_/ \__/  /_/ /_/ /_/   /____/  (_)/_/   \____/
 
-import requests
+from __future__ import print_function
+
 import json
 
+import requests
+
+
 class Pushthis:
-
-    ## create instance of object ##
     def __init__(self, key, secret, accessPoint):
-        self.setKey = key
-        self.setSecret = secret
-        self.setAccessPoint = accessPoint
-        self.payloadQueue = []
+        self.key = key
+        self.secret = secret
+        self.access_point = accessPoint
+        self.payload_queue = []
 
-    ## set the channel ##
-    def setChannel(self, channel):
-        self.setChannel = channel
+    def set_channel(self, channel):
+        # type: (str) -> None
+        """
+        Set the channel.
 
-    ## set the event ##
-    def setEvent(self, event):
-        self.setEvent = event
+        :param channel:
+        :return:
+        """
 
-    ## set the data
+        self.channel = channel
+
+    def event(self, event):
+        # type: (str) -> None
+        """
+        Set the event.
+
+        :param event:
+        :return:
+        """
+
+        self.event = event
+
     def attach(self, data):
-        self.insertData = data
+        # type: (str) -> None
+        """
+        Set the data.
 
-    ## Add payload to queue ##
+        :param data:
+        :return:
+        """
+
+        self.insert_data = data
+
     def add(self, payload):
-        self.payloadQueue.append(payload)
+        # type: (dict[str]) -> None
+        """
+        Add payload to queue.
 
-    ## Send Payload to RESTful API ##
+        :param payload:
+        :return:
+        """
+
+        self.payload_queue.append(payload)
+
     def send(self):
-            ## check if payloads in queue
-            if len(self.payloadQueue) != 0:
-                ## Create Payload Build - Multi-Payload
-                print('Multi Request')
-                payload = {
-                    'secret': self.setSecret,
-                    'key': self.setKey,
-                    'payload': self.payloadQueue
-                }
-                
-                headers = {'content-type': 'application/json'}
-                response = requests.post(self.setAccessPoint, data=json.dumps(payload), headers=headers)
-                print(response)
+        # type: () -> None
+        """
+        Send the payload to the API.
 
-            else:
-                ## Create Payload Build - Single Payload
-                print('Single Request')
-                payload = {
-                    'secret': self.setSecret,
-                    'key': self.setKey,
-                    'payload': {
-                        'channel': self.setChannel,
-                        'event': self.setEvent,
-                        'data': self.insertData
-                    }
-                }
+        :return:
+        """
 
-                headers = {'content-type': 'application/json'}
-                response = requests.post(self.setAccessPoint, data=json.dumps(payload), headers=headers)
-                print(response)
+        # check if payloads in queue
+        if len(self.payload_queue) != 0:
+            # Create Payload Build - Multi-Payload
+            print('Multi Request')
+            payload = {
+                'secret': self.secret,
+                'key': self.key,
+                'payload': self.payload_queue
+            }
+
+            headers = {'content-type': 'application/json'}
+            response = requests.post(self.access_point, data=json.dumps(payload), headers=headers)
+            print(response)
+
+        else:
+            # Create Payload Build - Single Payload
+            print('Single Request')
+            payload = {
+                'secret': self.secret,
+                'key': self.key,
+                'payload': {
+                    'channel': self.channel,
+                    'event': self.event,
+                    'data': self.insert_data
+                }
+            }
+
+            headers = {'content-type': 'application/json'}
+            response = requests.post(self.access_point, data=json.dumps(payload), headers=headers)
+            print(response)
 
     def authorize(self, status, channel, socket_id):
-                ## Create Authorize Payload Build
-                print('Authorizing Request')
-                payload = {
-                    'secret': self.setSecret,
-                    'key': self.setKey,
-                    'payload': {
-                        'channel': channel,
-                        'authorized': status,
-                        'socket_id': socket_id
-                    }
-                }
+        # type: (bool, str, str) -> None
+        """
+        Authorize a payload.
 
-                headers = {'content-type': 'application/json'}
-                response = requests.post(self.setAccessPoint, data=json.dumps(payload), headers=headers)
-                print(response)
+        :param status:
+        :param channel:
+        :param socket_id:
+        :return:
+        """
+        
+        # Create Authorize Payload Build
+        print('Authorizing Request')
+        payload = {
+            'secret': self.secret,
+            'key': self.key,
+            'payload': {
+                'channel': channel,
+                'authorized': status,
+                'socket_id': socket_id
+            }
+        }
+
+        headers = {'content-type': 'application/json'}
+        response = requests.post(self.access_point, data=json.dumps(payload), headers=headers)
+        print(response)
