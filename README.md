@@ -79,5 +79,5 @@ pushthis.authorize(boolean, channel, socket_id)
 > Documentation for Pushthis.io can be found at https://pushthis.io/documentation
 
 # Contributors & Honorable Mentions
-- Devitgg @ https://github.com/devitgg
+- Yordadev @ https://github.com/yordadev
 - Nhalstead @ https://github.com/nhalstead
